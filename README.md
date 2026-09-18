@@ -18,7 +18,7 @@ RAG, vector databases, tool calling, and workflow automation.
 Rebalancer](#13-ai-powered-portfolio-rebalancer) README](./AI-Powered%20Portfolio%20Rebalancer/AI-Powered%20Portfolio%20Rebalancer.md)
 
 2/3 [Product Expert Voice ✅ Completed [Project
-Agent](#23-product-expert-voice-agent) README](./Product%20Expert%20voice%20agent/Product%20Expert%20Voice%20Agent.md)
+Agent](#23-product-expert-voice-agent) README](./Product%20Expert%20Voice%20Agent/Product%20Expert%20Voice%20Agent.md)
 
 3/3 Coming soon 🚧 Planned ---
 
@@ -65,13 +65,12 @@ Update Portfolio
 
 ```text
 AI-Powered Portfolio Rebalancer/
-├── README.md
+├── AI-Powered Portfolio Rebalancer.md
 ├── Equity Portfolio Rebalancer.json
-└── Equity portfolio rebalancer.png
+└── image/
 ```
 
-> If the Project 1 folder uses a different name in the repository,
-> update the relative link above to match the actual folder path.
+> The project documentation lives in the markdown file inside the project folder.
 
 ---
 
@@ -123,13 +122,14 @@ Response Respond to Webhook
 ### Project files
 
 ```text
-Product Expert voice agent/
-├── README.md
-└── Product Expert voice agent.json
+Product Expert Voice Agent/
+├── Product Expert Voice Agent.md
+├── Product Expert voice agent.json
+└── images/
 ```
 
 📖 **Detailed documentation:** [Product Expert Voice Agent
-README](./Product%20Expert%20voice%20agent/README.md)
+README](./Product%20Expert%20Voice%20Agent/Product%20Expert%20Voice%20Agent.md)
 
 ---
 
@@ -145,8 +145,8 @@ AI-Engineering-Projects/
 │   ├── Equity Portfolio Rebalancer.json
 │   └── Equity portfolio rebalancer.png
 │
-├── Product Expert voice agent/
-│   ├── README.md
+├── Product Expert Voice Agent/
+│   ├── Product Expert Voice Agent.md
 │   └── Product Expert voice agent.json
 │
 └── Project 3/
