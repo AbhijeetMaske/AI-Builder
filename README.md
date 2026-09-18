@@ -15,10 +15,14 @@ RAG, vector databases, tool calling, and workflow automation.
 ---
 
 1/3 [AI-Powered Portfolio ✅ Completed [Project
-Rebalancer](#13-ai-powered-portfolio-rebalancer) README](./AI-Powered%20Portfolio%20Rebalancer/AI-Powered%20Portfolio%20Rebalancer.md)
+Rebalancer](#13-ai-powered-portfolio-rebalancer) README](https://github.com/AbhijeetMaske/AI-Builder/blob/main/AI-Powered%20Portfolio%20Rebalancer/AI-Powered%20Portfolio%20Rebalancer.md)
 
 2/3 [Product Expert Voice ✅ Completed [Project
+<<<<<<< HEAD
 Agent](#23-product-expert-voice-agent) README](./Product%20Expert%20Voice%20Agent/Product%20Expert%20Voice%20Agent.md)
+=======
+Agent](#23-product-expert-voice-agent) README](https://github.com/AbhijeetMaske/AI-Builder/blob/main/Product%20Expert%20Voice%20Agent/Product%20Expert%20Voice%20Agent.md)
+>>>>>>> 82ee8a81ecbaafbe1d52ffbe7fd6e8c7b86f8bc0
 
 3/3 Coming soon 🚧 Planned ---
 
@@ -129,7 +133,11 @@ Product Expert Voice Agent/
 ```
 
 📖 **Detailed documentation:** [Product Expert Voice Agent
+<<<<<<< HEAD
 README](./Product%20Expert%20Voice%20Agent/Product%20Expert%20Voice%20Agent.md)
+=======
+README]([./Product%20Expert%20voice%20agent/README.md](https://github.com/AbhijeetMaske/AI-Builder/blob/main/Product%20Expert%20Voice%20Agent/Product%20Expert%20Voice%20Agent.md))
+>>>>>>> 82ee8a81ecbaafbe1d52ffbe7fd6e8c7b86f8bc0
 
 ---
 
