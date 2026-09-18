@@ -1,433 +1,229 @@
-# 🤖 AI Engineering Projects — n8n Automation Series
+# 🤖 AI Engineering Projects --- n8n Automation Series
 
-> **Learning by building: AI Agents, LLMs, APIs, Tools & Automation**
+> **Learning by building:** AI Agents, LLMs, APIs, Tools & Automation
 
-This repository documents my hands-on journey into **AI Engineering**, with a focus on building practical AI-powered workflows using **n8n, LLMs, APIs, data sources, automation tools, and notifications**.
+This repository contains hands-on AI engineering and n8n automation
+projects built to explore practical AI agents, LLM integrations, APIs,
+RAG, vector databases, tool calling, and workflow automation.
 
-The goal is simple:
-
-**Learn → Build → Experiment → Break → Improve → Share**
-
-This README will evolve as I complete each project in the **3-project learning series**.
+## 📚 Projects
 
 ---
 
-## 📚 Project Series
-
-| #       | Project                                                                          | Status         | Focus                                        |
-| ------- | -------------------------------------------------------------------------------- | -------------- | -------------------------------------------- |
-| **1/3** | [AI-Powered Portfolio Rebalancer](#-project-13--ai-powered-portfolio-rebalancer) | ✅ Completed   | AI Agent + n8n + Google Sheets + MarketStack |
-| **2/3** | _Coming soon_                                                                    | 🚧 In progress | To be added                                  |
-| **3/3** | _Coming soon_                                                                    | 🚧 Planned     | To be added                                  |
+\# Project Status Documentation
 
 ---
 
-# 🚀 Project 1/3 — AI-Powered Portfolio Rebalancer
+1/3 [AI-Powered Portfolio ✅ Completed [Project
+Rebalancer](#13-ai-powered-portfolio-rebalancer) README](./AI-Powered%20Portfolio%20Rebalancer/AI-Powered%20Portfolio%20Rebalancer.md)
 
-An AI-powered portfolio rebalancing workflow built with **n8n** that reads portfolio data, retrieves market information, performs calculations, determines rebalancing actions, updates the portfolio, and sends notifications.
+2/3 [Product Expert Voice ✅ Completed [Project
+Agent](#23-product-expert-voice-agent) README](./Product%20Expert%20voice%20agent/Product%20Expert%20Voice%20Agent.md)
 
-### 🎯 Project Objective
-
-The objective was to understand how an **AI Agent can coordinate multiple tools and data sources to complete a real-world business workflow**.
-
-Instead of building a simple LLM chatbot, this project explores an agentic workflow where the AI can:
-
-- Understand a user's portfolio rebalancing instruction
-- Read portfolio holdings from Google Sheets
-- Retrieve market prices
-- Reuse previously stored market data where possible
-- Perform portfolio calculations
-- Determine BUY / SELL / HOLD actions
-- Update portfolio quantities
-- Send email and push notifications
-- Verify the result before completing the workflow
+3/3 Coming soon 🚧 Planned ---
 
 ---
 
-## 🧩 Workflow Architecture
+---
+
+## 1/3 --- AI-Powered Portfolio Rebalancer
+
+An n8n automation project that combines an AI Agent, Google Sheets,
+market data, calculations, and notifications to automate portfolio
+rebalancing decisions.
+
+### Core workflow
 
 ```text
-                         ┌──────────────────────┐
-                         │   Portfolio Request  │
-                         │    n8n Form Trigger  │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │      AI Agent        │
-                         │   LLM + Tool Calls   │
-                         └──────────┬───────────┘
-                                    │
-             ┌──────────────────────┼──────────────────────┐
-             │                      │                      │
-             ▼                      ▼                      ▼
-   ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-   │ Google Sheets   │    │  MarketStack    │    │   Calculator    │
-   │ Portfolio Data  │    │  Market Prices  │    │ Rebalancing Math│
-   └────────┬────────┘    └────────┬────────┘    └────────┬────────┘
-            │                      │                      │
-            └──────────────────────┼──────────────────────┘
-                                   │
-                                   ▼
-                         ┌──────────────────────┐
-                         │ Rebalancing Decision │
-                         │   BUY / SELL / HOLD  │
-                         └──────────┬───────────┘
-                                    │
-                     ┌──────────────┼──────────────┐
-                     │              │              │
-                     ▼              ▼              ▼
-             ┌──────────────┐ ┌────────────┐ ┌───────────────┐
-             │ Update Sheet │ │   Email    │ │ Push Notify   │
-             └──────────────┘ └────────────┘ └───────────────┘
+Form Trigger
+     ↓
+AI Agent
+     ├── Google Sheets
+     ├── MarketStack
+     └── Calculator
+     ↓
+BUY / SELL / HOLD Decision
+     ↓
+Update Portfolio
+     ├── Gmail
+     └── Pushover
 ```
 
----
+### Key concepts
 
-## 🛠️ Technology & Tools
+- AI Agent orchestration
+- Tool calling
+- LLM integration
+- Market-data APIs
+- Google Sheets integration
+- Portfolio calculations
+- Data reuse/caching
+- Iterative verification
+- Automated notifications
 
-- **[n8n](https://n8n.io/)** — Workflow automation and AI orchestration
-- **LLM via OpenRouter** — AI reasoning layer
-- **[Google Sheets](https://www.google.com/sheets/about/)** — Portfolio and market-data storage
-- **[MarketStack](https://marketstack.com/)** — Market data API
-- **Calculator Tool** — Portfolio and rebalancing calculations
-- **Gmail** — Email notification
-- **Pushover** — Push notifications
-
----
-
-## 🔄 How the Workflow Works
-
-### 1. Portfolio Rebalancing Request
-
-The workflow starts with an **n8n form submission**.
-
-Example request:
-
-> Ensure portfolio is approximately 60% equity and 40% fixed income.
-
-The request is passed to the AI Agent as the user's rebalancing instruction.
-
----
-
-### 2. Read Portfolio Data
-
-The AI Agent reads the portfolio information stored in Google Sheets, including:
-
-- Ticker
-- Quantity
-- Equity allocation
-- Fixed-income allocation
-- Price
-- Total value
-
-This gives the agent the current portfolio state before making any decision.
-
----
-
-### 3. Check Existing Market Data
-
-One of the most important improvements I added was a **market-data caching approach**.
-
-Instead of calling the MarketStack API every time:
+### Files
 
 ```text
-Portfolio Ticker
-      │
-      ▼
-Check MarketStack Data Sheet
-      │
-      ├── Price available → Reuse stored data
-      │
-      └── Price unavailable → Call MarketStack API
-                                      │
-                                      ▼
-                              Store latest data
-```
-
-This helps reduce unnecessary API consumption.
-
-### 💡 Why I Added This
-
-While testing the workflow, I consumed the available free MarketStack API quota very quickly.
-
-That became a practical lesson:
-
-> **An AI workflow should not only work — it should also use external APIs efficiently.**
-
-The workflow therefore checks whether market data already exists before making another API request.
-
----
-
-## 🧮 4. Portfolio Calculation
-
-The AI Agent uses the Calculator tool to determine:
-
-- Current value of each position
-- Total portfolio value
-- Current allocation percentage
-- Target allocation
-- Allocation deviation
-- Required share quantity
-
-The workflow is designed around **whole-share trading**, so fractional shares are not used.
-
----
-
-## ⚖️ 5. Rebalancing Logic
-
-The AI Agent generates:
-
-- **BUY**
-- **SELL**
-- **HOLD**
-
-decisions based on the target portfolio allocation.
-
-The workflow attempts to keep each position within a defined **±2% allocation tolerance**.
-
-It also allows up to **3 rebalancing attempts** when the target tolerance is not achieved on the first attempt.
-
----
-
-## 📝 6. Update Portfolio
-
-After generating the rebalancing decisions, the workflow updates the Google Sheet with the new quantity after rebalancing.
-
-The workflow tracks information such as:
-
-- Ticker
-- Price
-- Current quantity
-- New quantity
-- Total value
-- New portfolio value
-
----
-
-## 🔔 7. Notifications
-
-Once the workflow completes, it can send:
-
-### 📧 Email
-
-A rebalancing summary is sent through Gmail.
-
-### 📱 Push Notification
-
-Pushover is used to provide a quick success/failure notification.
-
-The workflow also contains a final success/failure check so the user receives a clear status.
-
----
-
-# 🧠 Key AI Engineering Concepts Explored
-
-This project was more than connecting n8n nodes.
-
-The main learning areas were:
-
-### 1. AI Agent Orchestration
-
-Understanding how an LLM can decide when and how to use external tools.
-
-### 2. Tool Calling
-
-Connecting the AI Agent with:
-
-- Google Sheets
-- MarketStack
-- Calculator
-- Email
-- Push notifications
-
-### 3. External API Management
-
-Learning that API usage needs to be considered when designing AI workflows.
-
-### 4. Data Reuse / Caching
-
-Introducing a stored market-data layer to reduce unnecessary API calls.
-
-### 5. Verification
-
-The workflow includes verification steps rather than assuming that a write or calculation succeeded.
-
-### 6. Iterative Reasoning
-
-The rebalancing process can be repeated when the portfolio remains outside the target tolerance.
-
-### 7. End-to-End Automation
-
-The project connects:
-
-**User Input → AI Reasoning → Data → Calculation → Decision → Update → Notification**
-
----
-
-# 📊 Learning Architecture
-
-```text
-                    USER
-                     │
-                     ▼
-              n8n Form Trigger
-                     │
-                     ▼
-                AI AGENT
-                     │
-        ┌────────────┼────────────┐
-        ▼            ▼            ▼
-     DATA          TOOLS        APIs
-        │            │            │
-        ▼            ▼            ▼
- Google Sheets   Calculator   MarketStack
-        │            │            │
-        └────────────┼────────────┘
-                     │
-                     ▼
-             REBALANCING LOGIC
-                     │
-                     ▼
-              PORTFOLIO UPDATE
-                     │
-             ┌───────┴────────┐
-             ▼                ▼
-           EMAIL          PUSH ALERT
-```
-
----
-
-# 📁 Repository Structure
-
-```text
-.
+AI-Powered Portfolio Rebalancer/
 ├── README.md
 ├── Equity Portfolio Rebalancer.json
 └── Equity portfolio rebalancer.png
 ```
 
-### Workflow File
-
-**[Equity Portfolio Rebalancer.json](./Equity%20Portfolio%20Rebalancer.json)**
-
-Import this JSON into n8n to inspect the workflow structure.
-
-### Workflow Image
-
-**[View workflow image](./Equity%20portfolio%20rebalancer.png)**
+> If the Project 1 folder uses a different name in the repository,
+> update the relative link above to match the actual folder path.
 
 ---
 
-# ▶️ How to Use
+## 2/3 --- Product Expert Voice Agent
 
-## Prerequisites
+A compact n8n RAG workflow that accepts product questions through a
+webhook and uses an AI Agent with a Supabase vector knowledge base to
+retrieve relevant product information.
 
-You will need:
+### Core workflow
 
-- An n8n instance
-- Google Sheets access
-- A MarketStack API account
-- An LLM provider compatible with the workflow
-- Gmail access for email notifications
-- Pushover access for push notifications
+```text
+Webhook
+   ↓
+AI Agent
+   ├── OpenRouter Chat Model
+   └── Supabase Vector Store
+          └── Cohere Embeddings
+   ↓
+Respond to Webhook
+```
 
-## Setup
+### Key concepts
 
-1. Clone this repository.
-2. Open your n8n instance.
-3. Import **`Equity Portfolio Rebalancer.json`**.
-4. Configure your own credentials for:
-   - Google Sheets
-   - MarketStack
-   - LLM / OpenRouter
-   - Gmail
-   - Pushover
-5. Configure your own Google Sheet structure.
-6. Review the AI Agent instructions.
-7. Test the workflow with sample portfolio data.
-8. Activate the workflow only after validating the calculations and outputs.
+- AI Agent orchestration
+- RAG / vector retrieval
+- Tool-based knowledge retrieval
+- OpenRouter LLM integration
+- Supabase Vector Store
+- Cohere embeddings
+- Webhook-based API interaction
 
----
+### Main configuration
 
-# 🔐 Security & Important Note
-
-**Do not publish API keys, OAuth credentials, webhook secrets, personal email addresses, user keys, or other credentials in a public repository.**
-
-The exported n8n workflow may contain credential references or environment-specific configuration.
-
-Before making this repository public:
-
-- Replace credentials with your own
-- Remove sensitive IDs and secrets
-- Review webhook configuration
-- Review notification configuration
-- Use environment variables where appropriate
-- Use test portfolio data rather than real financial information
-
-> ⚠️ **This project is for learning and experimentation. It is not financial advice and should not be used to automatically execute real trades without appropriate safeguards and human review.**
+Component Configuration
 
 ---
 
-# 💡 What I Learned
+Input HTTP POST webhook
+Question field `body.question`
+Chat model `nex-agi/nex-n2.5-pro:free`
+Vector store Supabase
+Knowledge table `knowledgebase`
+Retrieval mode Retrieve as Tool
+Top K 10
+Embeddings Cohere `embed-english-v3.0`
+Response Respond to Webhook
 
-The biggest takeaway from this project was that building AI automation is not just about adding an LLM.
+### Project files
 
-A useful AI workflow needs:
+```text
+Product Expert voice agent/
+├── README.md
+└── Product Expert voice agent.json
+```
 
-**Reasoning + Tools + Data + Validation + Error Handling + Cost Awareness**
-
-The MarketStack API experience was especially valuable because it forced me to think about **API efficiency and data reuse**, rather than treating external APIs as unlimited resources.
-
----
-
-# 🚧 What's Next?
-
-This is **Project 1 of 3** in my AI Engineering learning journey.
-
-I'll continue adding the next projects to this same README as I build them.
-
-### Coming next
-
-**Project 2/3 → Coming soon 🚀**
-
-**Project 3/3 → Coming soon 🚀**
-
-The goal is not simply to complete a course.
-
-The goal is to **build enough real workflows to understand how AI systems actually work end-to-end.**
+📖 **Detailed documentation:** [Product Expert Voice Agent
+README](./Product%20Expert%20voice%20agent/README.md)
 
 ---
 
-## 🙌 Learning in Public
+## 🗂️ Repository Structure
 
-I'm documenting these projects to share what I'm learning while moving deeper into:
+```text
+AI-Engineering-Projects/
+│
+├── README.md
+│
+├── AI-Powered Portfolio Rebalancer/
+│   ├── README.md
+│   ├── Equity Portfolio Rebalancer.json
+│   └── Equity portfolio rebalancer.png
+│
+├── Product Expert voice agent/
+│   ├── README.md
+│   └── Product Expert voice agent.json
+│
+└── Project 3/
+    └── Coming soon
+```
 
-**AI Engineering | LLMs | AI Agents | RAG | APIs | Automation | AI Product Engineering**
-
-If you are also learning by building, feel free to explore the workflow, experiment with it, and improve it.
-
-⭐ If you find the project useful, consider starring the repository.
-
----
-
-## 📌 Project Status
-
-| Area                      | Status         |
-| ------------------------- | -------------- |
-| n8n AI Agent              | ✅ Completed   |
-| Google Sheets integration | ✅ Completed   |
-| MarketStack integration   | ✅ Completed   |
-| Market data reuse         | ✅ Completed   |
-| Portfolio calculations    | ✅ Completed   |
-| Rebalancing logic         | ✅ Completed   |
-| Portfolio update          | ✅ Completed   |
-| Email notification        | ✅ Completed   |
-| Push notification         | ✅ Completed   |
-| Project documentation     | ✅ Completed   |
-| Project 2/3               | 🚧 Coming soon |
-| Project 3/3               | 🚧 Coming soon |
+The structure above is the intended documentation structure. Keep
+project-specific workflow files and documentation together so each
+project can be understood and run independently.
 
 ---
 
-**Built as part of my AI Engineering learning journey — one project at a time. 🚀**
+## 🛠️ General Setup
+
+Most projects in this repository are based on n8n workflows.
+
+Typical setup:
+
+1.  Install or run n8n.
+2.  Open the target project folder.
+3.  Import the project's `.json` workflow into n8n.
+4.  Configure the required credentials.
+5.  Configure project-specific data sources and tables.
+6.  Test the workflow with sample input.
+7.  Review the execution output and adjust configuration where required.
+
+Each project README contains the setup requirements specific to that
+workflow.
+
+---
+
+## 🔐 Security
+
+Never commit:
+
+- API keys
+- Access tokens
+- Database passwords
+- Private credentials
+- Production secrets
+
+Use n8n's credential management or environment configuration for
+sensitive values.
+
+---
+
+## 🎯 Learning Focus
+
+The projects are intended to build practical experience across:
+
+- AI Agents
+- LLM integrations
+- RAG
+- Vector databases
+- Embeddings
+- API integrations
+- Tool calling
+- Workflow automation
+- Data processing
+- Notifications
+- Verification and error handling
+
+---
+
+## 🚀 Project Roadmap
+
+- [x] Project 1/3 --- AI-Powered Portfolio Rebalancer
+- [x] Project 2/3 --- Product Expert Voice Agent
+- [ ] Project 3/3 --- Coming soon
+
+---
+
+## 📌 Documentation Approach
+
+Documentation is kept project-specific and implementation-focused.
+Features, dependencies, inputs, and setup steps should reflect the
+actual workflow implementation rather than assumed capabilities.
+
+More projects will be added to this repository as the learning series
+progresses.
